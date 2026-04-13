@@ -121,8 +121,9 @@ Parallel execution is enabled via `fullyParallel: true` and `workers: 2` in CI. 
 
 ## Docker
 
-to run on docker
-fill `.env` with data copied from `.env.local.docker`
+to run the specs on docker
+firstly start the Rolnopol app locally
+than in this codebase fill `.env` with data copied from `.env.local.docker`
 than run:
 
 `docker build -t e2etests .`
