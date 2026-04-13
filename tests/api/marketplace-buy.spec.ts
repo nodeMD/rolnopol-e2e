@@ -1,4 +1,4 @@
-import { makeField, makeUniqueUser } from '../../data/builders';
+import { makeField, makeOffer, makeUniqueUser } from '../../data/builders';
 import { registerUser } from '../../src/api/client';
 import { expect, test } from '../../src/fixtures/base';
 
@@ -22,11 +22,9 @@ test.describe('@api Marketplace – authenticated buy cycle', () => {
       });
 
       await test.step('User A lists field on marketplace', async () => {
-        const offerResp = await userA.createOffer({
-          itemType: 'field',
-          itemId: fieldId as number,
-          price: offerPrice,
-        });
+        const offerResp = await userA.createOffer(
+          makeOffer({ itemId: fieldId as number, price: offerPrice }),
+        );
         expect(offerResp.status()).toBe(200);
         offerId = createdOfferId = (await offerResp.json()).data.offer.id as number;
       });
