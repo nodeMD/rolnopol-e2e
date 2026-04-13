@@ -2,7 +2,7 @@ import { mockBuySuccess, mockMarketplaceOffers } from '../../data/mocks';
 import { test } from '../../src/fixtures/base';
 import { MarketplacePage } from '../../src/pages/marketplace.page';
 
-test.describe('Front-end integration – Marketplace with mocks @local', () => {
+test.describe('Front-end integration – Marketplace with mocks', () => {
   test('renders mocked offers and handles a mocked buy action', async ({
     authenticatedPage: page,
   }) => {
