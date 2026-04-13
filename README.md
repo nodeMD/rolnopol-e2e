@@ -18,6 +18,12 @@ Tests are runing on *Safari, Chrome and Firefox to cover with specs all browser 
 
 ---
 
+## Project structure and patterns used
+
+Check [E2E_WRITING_GUIDE.md](E2E_WRITING_GUIDE.md)
+
+---
+
 ## The five tests and why they were chosen
 
 All three scenarios documented at `/docs.html#e2e-scenarios` are covered:
@@ -103,6 +109,9 @@ Setup act locally accroding to their docs. Add `.secrets` file with data copied 
 
 `act push --secret-file .secrets`
 
+If you want to see the tests runing on the CI you have to firstly deploy the rolnopol app. Easiest way will be to deploy it on Render following rolnopol guide: [https://github.com/jaktestowac/rolnopol?tab=readme-ov-file#deploy-to-render](https://github.com/jaktestowac/rolnopol?tab=readme-ov-file#deploy-to-render).
+After the app is deployed you need to set up the secrets for the CI.
+Open your repository Settings then click on Secrets -> Actions next click button New repository secret and add secrets for all environmental variables from .env.example file pointing to the app you deployed on Render.
 
 Parallel execution is enabled via `fullyParallel: true` and `workers: 2` in CI. Only two workers cause when used more the app was returning 429 "Too Many Requests.
 
