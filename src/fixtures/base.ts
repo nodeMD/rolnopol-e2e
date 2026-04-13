@@ -4,7 +4,7 @@ import { ApiClient, registerUser } from '../api/client';
 import { env } from '../config/env';
 
 type CustomFixtures = {
-  // unauthenticated API client 
+  // unauthenticated API client
   apiClient: ApiClient;
 
   /**
