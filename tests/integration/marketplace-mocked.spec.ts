@@ -1,5 +1,5 @@
 import { mockBuySuccess, mockMarketplaceOffers } from '../../data/mocks';
-import { test } from '../../src/fixtures/base';
+import { expect, test } from '../../src/fixtures/base';
 import { MarketplacePage } from '../../src/pages/marketplace.page';
 
 test.describe('Front-end integration – Marketplace with mocks', () => {
@@ -9,7 +9,9 @@ test.describe('Front-end integration – Marketplace with mocks', () => {
     const marketplacePage = new MarketplacePage(page);
 
     await test.step('Navigate to marketplace with mocked offers', async () => {
+      let offersRouteHit = false;
       await page.route('**/api/v1/marketplace/offers**', async (route) => {
+        offersRouteHit = true;
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
@@ -22,6 +24,7 @@ test.describe('Front-end integration – Marketplace with mocks', () => {
       });
       await marketplacePage.goto();
       await marketplacePage.expectLoaded();
+      expect(offersRouteHit, 'offers route should have been intercepted').toBe(true);
     });
 
     await test.step('Assert mocked offers are rendered', async () => {
@@ -31,7 +34,9 @@ test.describe('Front-end integration – Marketplace with mocks', () => {
     });
 
     await test.step('Buy first offer via mocked endpoint', async () => {
+      let buyRouteHit = false;
       await page.route('**/api/v1/marketplace/buy**', async (route) => {
+        buyRouteHit = true;
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
@@ -40,6 +45,8 @@ test.describe('Front-end integration – Marketplace with mocks', () => {
       });
 
       await marketplacePage.buyFirstOffer();
+      expect(buyRouteHit, 'buy route should have been intercepted').toBe(true);
+      await marketplacePage.expectPurchaseSuccessToast();
       await marketplacePage.expectOfferCountAtMost(mockMarketplaceOffers.length);
     });
   });
