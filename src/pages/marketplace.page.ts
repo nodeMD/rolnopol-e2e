@@ -29,8 +29,10 @@ export class MarketplacePage {
   }
 
   async buyFirstOffer(): Promise<void> {
-    const buyButton = this.offerCards().first().locator('.btn-buy');
-    await buyButton.click();
+    await this.offerCards().first().locator('.btn-buy').click();
+    const confirmButton = this.page.locator('#confirmationModalConfirm');
+    await expect(confirmButton).toBeVisible();
+    await confirmButton.click();
     await this.page.waitForLoadState('load');
   }
 
