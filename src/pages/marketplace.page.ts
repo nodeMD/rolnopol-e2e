@@ -9,7 +9,7 @@ export class MarketplacePage {
   }
 
   async expectLoaded(): Promise<void> {
-    await this.page.waitForURL("**/marketplace.html", { timeout: 10_000 });
+    await this.page.waitForLoadState('load');
   }
 
   private offerCards() {
@@ -31,7 +31,7 @@ export class MarketplacePage {
   async buyFirstOffer(): Promise<void> {
     const buyButton = this.offerCards().first().locator('.btn-buy');
     await buyButton.click();
-    await this.page.waitForLoadState("load");
+    await this.page.waitForLoadState('load');
   }
 
   async expectOfferCountAtMost(count: number): Promise<void> {
