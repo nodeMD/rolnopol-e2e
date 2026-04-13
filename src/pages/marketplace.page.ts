@@ -36,6 +36,12 @@ export class MarketplacePage {
     await this.page.waitForLoadState('load');
   }
 
+  async expectPurchaseSuccessToast(): Promise<void> {
+    await expect(this.page.getByText('Purchase completed successfully!')).toBeVisible({
+      timeout: 8_000,
+    });
+  }
+
   async expectOfferCountAtMost(count: number): Promise<void> {
     const current = await this.offerCards().count();
     expect(current).toBeLessThanOrEqual(count);
