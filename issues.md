@@ -1,4 +1,4 @@
-List of issues found while working on the specs:
+List of issues found in [Rolnopol](https://github.com/jaktestowac/rolnopol) app while working on the specs:
 - 3 high severity vulnerabilities in installed npm packages
 priority: high
 explanation: we cannot have on production app that has critical security vulnerabilities!
