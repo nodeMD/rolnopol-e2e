@@ -37,6 +37,8 @@ All three scenarios documented at `/docs.html#e2e-scenarios` are covered:
 | 5 | `tests/integration/marketplace-mocked.spec.ts` | Integration + mocks | Sell a Field on the Marketplace (UI layer) |
 | Bonus | `tests/ui/form-validation.spec.ts` | UI | Validations on registration and animal, staff, field forms |
 
+There is a bug in the app which prevents the user from authenticating properly while using Safari browser. 🐛 Cause of that the specs are failing. Check [issues.md](issues.md) to get more info.
+
 ---
 
 ## Prerequisites
