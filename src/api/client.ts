@@ -89,6 +89,32 @@ export class ApiClient {
       headers: this.authHeaders(),
     });
   }
+
+  // ── Financial ─────────────────────────────────────────────────────────────
+
+  getFinancialAccount(): Promise<APIResponse> {
+    return this.request.get('/api/v1/financial/account', { headers: this.authHeaders() });
+  }
+
+  // fund a user's account via the financial transactions endpoint using valid test card number
+  addIncome(amount: number, description = 'E2E test seed'): Promise<APIResponse> {
+    return this.request.post('/api/v1/financial/transactions', {
+      data: {
+        type: 'income',
+        amount,
+        description,
+        cardNumber: '4111111111111111',
+        cvv: '123',
+      },
+      headers: this.authHeaders(),
+    });
+  }
+
+  // ── Health ────────────────────────────────────────────────────────────────
+
+  healthcheck(): Promise<APIResponse> {
+    return this.request.get('/api/v1/healthcheck');
+  }
 }
 
 // registers a fresh user and returns their token + userId
