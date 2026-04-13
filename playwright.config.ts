@@ -10,7 +10,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  workers: process.env.CI ? 2 : 3,
   reporter: [
     ['html', { open: 'never' }],
     ['junit', { outputFile: 'test-results/junit.xml' }],
@@ -18,13 +18,31 @@ export default defineConfig({
   ],
   use: {
     baseURL,
-    trace: 'on-first-retry',
+    trace: 'on',
     screenshot: 'only-on-failure',
   },
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      grepInvert: /@api/,
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+      grepInvert: /@api/,
+    },
+    {
+      name: 'safari',
+      use: { ...devices['Desktop Safari'] },
+      grepInvert: /@api/,
+    },
+    {
+      name: 'api-tests',
+      use: {
+        baseURL: process.env.API_URL,
+      },
+      grep: /@api/,
     },
   ],
 });
