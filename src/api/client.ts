@@ -1,6 +1,43 @@
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 import type { FieldPayload, MarketplaceOfferPayload, UserPayload } from '../../data/builders';
 
+export interface ApiBody<T = unknown> {
+  success: boolean;
+  timestamp?: string;
+  data: T;
+  error?: string;
+  message?: string;
+}
+
+export interface AuthData {
+  token: string;
+  user: { id: number; email: string; displayedName: string };
+}
+
+export interface FieldData {
+  id: number;
+  name: string;
+  area: number;
+  ownerId: number;
+}
+
+export interface OfferData {
+  id: number;
+  sellerId: number;
+  itemType: 'field' | 'animal';
+  itemId: number;
+  price: number;
+  description?: string;
+  status: 'active' | 'sold' | 'cancelled';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FinancialAccountData {
+  balance: number;
+  currency: string;
+}
+
 // wrapper around Playwright's APIRequestContext
 export class ApiClient {
   constructor(
@@ -130,9 +167,9 @@ export async function registerUser(
     throw new Error(`Registration failed: ${body.error ?? response.status()}`);
   }
 
-  const body = await response.json();
-  const token: string = body.data.token;
-  const userId: number = body.data.user.id;
+  const body = (await response.json()) as ApiBody<AuthData>;
+  const token = body.data.token;
+  const userId = body.data.user.id;
 
   client.setToken(token);
   return { token, userId, client };
