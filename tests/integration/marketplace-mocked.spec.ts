@@ -41,7 +41,6 @@ test.describe('Front-end integration – Marketplace with mocks', () => {
 
       await marketplacePage.buyFirstOffer();
       await marketplacePage.expectOfferCountAtMost(mockMarketplaceOffers.length);
-
     });
   });
 });

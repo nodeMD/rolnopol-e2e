@@ -15,7 +15,9 @@ test.describe('Marketplace – insufficient funds', () => {
 
     try {
       await test.step('Seller creates a field', async () => {
-        const fieldResp = await seller.createField(makeField({ name: 'Unaffordable Field', area: 5 }));
+        const fieldResp = await seller.createField(
+          makeField({ name: 'Unaffordable Field', area: 5 }),
+        );
         expect(fieldResp.status()).toBe(201);
         fieldId = (await fieldResp.json()).data.id as number;
       });

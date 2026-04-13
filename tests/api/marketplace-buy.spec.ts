@@ -14,7 +14,9 @@ test.describe('Marketplace – authenticated buy cycle', () => {
 
     try {
       await test.step('User A creates a field', async () => {
-        const fieldResp = await userA.createField(makeField({ name: 'Market Test Field', area: 8 }));
+        const fieldResp = await userA.createField(
+          makeField({ name: 'Market Test Field', area: 8 }),
+        );
         expect(fieldResp.status()).toBe(201);
         fieldId = (await fieldResp.json()).data.id as number;
       });
@@ -32,7 +34,10 @@ test.describe('Marketplace – authenticated buy cycle', () => {
       await test.step('User B sees the offer as active', async () => {
         const offersResp = await userB.getOffers();
         expect(offersResp.ok()).toBe(true);
-        const offers = (await offersResp.json()).data.offers as Array<{ id: number; status: string }>;
+        const offers = (await offersResp.json()).data.offers as Array<{
+          id: number;
+          status: string;
+        }>;
         const listedOffer = offers.find((o) => o.id === offerId);
         expect(listedOffer).toBeDefined();
         expect(listedOffer?.status).toBe('active');
@@ -51,7 +56,10 @@ test.describe('Marketplace – authenticated buy cycle', () => {
       await test.step('User A verifies offer is marked sold', async () => {
         const myOffersResp = await userA.getMyOffers();
         expect(myOffersResp.ok()).toBe(true);
-        const offers = (await myOffersResp.json()).data.offers as Array<{ id: number; status: string }>;
+        const offers = (await myOffersResp.json()).data.offers as Array<{
+          id: number;
+          status: string;
+        }>;
         const soldOffer = offers.find((o) => o.id === createdOfferId);
         expect(soldOffer?.status).toBe('sold');
       });
