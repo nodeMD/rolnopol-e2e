@@ -11,9 +11,6 @@ export class LoginPage {
     await this.page.getByLabel('Email').fill(email);
     await this.page.getByLabel('Password').fill(password);
     await this.page.getByRole('button', { name: 'Login' }).click();
-  }
-
-  async expectRedirectToProfile(): Promise<void> {
-    await this.page.waitForURL(/profile\.html/, { timeout: 10_000 });
+    await this.page.waitForLoadState('load');
   }
 }
