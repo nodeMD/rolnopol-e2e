@@ -124,6 +124,7 @@ Parallel execution is enabled via `fullyParallel: true` and `workers: 2` in CI. 
 to run the specs on docker
 firstly start the Rolnopol app locally
 than in this codebase fill `.env` with data copied from `.env.local.docker`
+(if you are runing the Rolnopol in docker container than adjust the setup accordingly so that tests could communicate with the app)
 than run:
 
 `docker build -t e2etests .`
