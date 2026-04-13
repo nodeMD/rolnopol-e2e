@@ -1,5 +1,5 @@
 import type { APIRequestContext, APIResponse } from '@playwright/test';
-import type { UserPayload } from '../../data/builders';
+import type { FieldPayload, MarketplaceOfferPayload, UserPayload } from '../../data/builders';
 
 // wrapper around Playwright's APIRequestContext
 export class ApiClient {
@@ -32,6 +32,62 @@ export class ApiClient {
 
   deleteProfile(): Promise<APIResponse> {
     return this.request.delete('/api/v1/users/profile', { headers: this.authHeaders() });
+  }
+
+  // ── Fields ────────────────────────────────────────────────────────────────
+
+  createField(payload: FieldPayload): Promise<APIResponse> {
+    return this.request.post('/api/v1/fields', {
+      data: payload,
+      headers: this.authHeaders(),
+    });
+  }
+
+  getFields(): Promise<APIResponse> {
+    return this.request.get('/api/v1/fields', { headers: this.authHeaders() });
+  }
+
+  deleteField(id: number): Promise<APIResponse> {
+    return this.request.delete(`/api/v1/fields/${id}`, { headers: this.authHeaders() });
+  }
+
+  // ── Staff ─────────────────────────────────────────────────────────────────
+
+  assignStaffToField(staffId: number, fieldId: number): Promise<APIResponse> {
+    return this.request.post('/api/v1/fields/assign', {
+      data: { staffId, fieldId },
+      headers: this.authHeaders(),
+    });
+  }
+
+  // ── Marketplace ───────────────────────────────────────────────────────────
+
+  createOffer(payload: MarketplaceOfferPayload): Promise<APIResponse> {
+    return this.request.post('/api/v1/marketplace/offers', {
+      data: payload,
+      headers: this.authHeaders(),
+    });
+  }
+
+  getOffers(): Promise<APIResponse> {
+    return this.request.get('/api/v1/marketplace/offers', { headers: this.authHeaders() });
+  }
+
+  getMyOffers(): Promise<APIResponse> {
+    return this.request.get('/api/v1/marketplace/my-offers', { headers: this.authHeaders() });
+  }
+
+  cancelOffer(offerId: number): Promise<APIResponse> {
+    return this.request.delete(`/api/v1/marketplace/offers/${offerId}`, {
+      headers: this.authHeaders(),
+    });
+  }
+
+  buyOffer(offerId: number): Promise<APIResponse> {
+    return this.request.post('/api/v1/marketplace/buy', {
+      data: { offerId },
+      headers: this.authHeaders(),
+    });
   }
 }
 
