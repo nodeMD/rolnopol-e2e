@@ -9,23 +9,33 @@ export class MarketplacePage {
   }
 
   async expectLoaded(): Promise<void> {
-    await this.page.waitForURL(/marketplace\.html/, { timeout: 10_000 });
-    await expect(this.page).not.toHaveURL(/login\.html/);
+    await this.page.waitForURL("**/marketplace.html", { timeout: 10_000 });
   }
 
-  offerCards() {
+  private offerCards() {
     return this.page.locator('#browseOffers .offer-card');
-  }
-
-  async expectOfferCount(count: number): Promise<void> {
-    await expect(this.offerCards()).toHaveCount(count, { timeout: 8_000 });
   }
 
   async expectOffersVisible(): Promise<void> {
     await expect(this.offerCards().first()).toBeVisible({ timeout: 8_000 });
   }
 
+  async expectOfferCount(count: number): Promise<void> {
+    await expect(this.offerCards()).toHaveCount(count, { timeout: 8_000 });
+  }
+
+  async expectFirstOfferContainsPrice(price: string | number): Promise<void> {
+    await expect(this.offerCards().first()).toContainText(String(price));
+  }
+
   async buyFirstOffer(): Promise<void> {
-    await this.offerCards().first().getByRole('button', { name: /buy/i }).click();
+    const buyButton = this.offerCards().first().locator('.btn-buy');
+    await buyButton.click();
+    await this.page.waitForLoadState("load");
+  }
+
+  async expectOfferCountAtMost(count: number): Promise<void> {
+    const current = await this.offerCards().count();
+    expect(current).toBeLessThanOrEqual(count);
   }
 }
