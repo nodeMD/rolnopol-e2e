@@ -5,7 +5,7 @@ explanation: we cannot have on production app that has critical security vulnera
 
 - Safari browser, user is not able to authenticate: 
 
-![alt text](issues-images/SafariLoginFail.png)
+![alt text](issues-images/SafariLogInFail.png)
 
 priority: high
 explanation: safari users are completely blocked from using our app
