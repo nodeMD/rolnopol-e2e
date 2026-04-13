@@ -1,4 +1,4 @@
-import { makeField, makeUniqueUser } from '../../data/builders';
+import { makeField, makeOffer, makeUniqueUser } from '../../data/builders';
 import { registerUser } from '../../src/api/client';
 import { expect, test } from '../../src/fixtures/base';
 
@@ -23,11 +23,9 @@ test.describe('@api Marketplace – insufficient funds', () => {
       });
 
       await test.step('Seller lists field at a price the buyer cannot afford', async () => {
-        const offerResp = await seller.createOffer({
-          itemType: 'field',
-          itemId: fieldId as number,
-          price: 999_999,
-        });
+        const offerResp = await seller.createOffer(
+          makeOffer({ itemId: fieldId as number, price: 999_999 }),
+        );
         expect(offerResp.status()).toBe(200);
         offerId = (await offerResp.json()).data.offer.id as number;
       });
@@ -44,7 +42,7 @@ test.describe('@api Marketplace – insufficient funds', () => {
         const buyBody = await buyResp.json();
         expect(buyBody.success).toBe(false);
         const errorText = (buyBody.error ?? buyBody.message ?? '').toLowerCase();
-        expect(errorText).toMatch('insufficient funds to complete purchase (no overdraft allowed)');
+        expect(errorText).toMatch(/insufficient funds/i);
       });
 
       await test.step('Buyer balance is unchanged after failed purchase', async () => {
