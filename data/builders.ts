@@ -31,3 +31,12 @@ export function makeField(overrides?: Partial<FieldPayload>): FieldPayload {
     ...overrides,
   };
 }
+
+export function makeOffer(overrides?: Partial<MarketplaceOfferPayload>): MarketplaceOfferPayload {
+  return {
+    itemType: 'field',
+    itemId: 0,
+    price: 100,
+    ...overrides,
+  };
+}
