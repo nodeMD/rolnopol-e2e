@@ -39,13 +39,9 @@ test.describe('Front-end integration – Marketplace with mocks', () => {
         });
       });
 
-      const clicked = await marketplacePage.buyFirstOfferIfAvailable();
-      if (clicked) {
-        await page.waitForTimeout(500);
-        await marketplacePage.expectOfferCountAtMost(mockMarketplaceOffers.length);
-      } else {
-        await marketplacePage.expectOffersVisible();
-      }
+      await marketplacePage.buyFirstOffer();
+      await marketplacePage.expectOfferCountAtMost(mockMarketplaceOffers.length);
+
     });
   });
 });
