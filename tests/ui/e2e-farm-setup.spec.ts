@@ -5,7 +5,7 @@ import { LoginPage } from '../../src/pages/login.page';
 import { RegisterPage } from '../../src/pages/register.page';
 import { StaffFieldsPage } from '../../src/pages/staff-fields.page';
 
-// There is a bug in the app that it fails to authenticate user on Safari browser 🐛
+// There is a bug in the app which prevents the user from authenticating properly while using Safari browser 🐛
 test.describe('UI E2E – Register and Set Up Farm', () => {
   test('registers via UI, logs in, adds field/animal/staff, assigns staff to field', async ({
     page,
