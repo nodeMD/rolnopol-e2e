@@ -1,6 +1,6 @@
 import { expect, test } from '../../src/fixtures/base';
 
-test.describe('Healthcheck', () => {
+test.describe('@api Healthcheck', () => {
   test('GET /api/v1/healthcheck returns 200 with healthy status', async ({ apiClient }) => {
     const response = await apiClient.healthcheck();
 

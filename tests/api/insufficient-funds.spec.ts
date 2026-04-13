@@ -2,7 +2,7 @@ import { makeField, makeUniqueUser } from '../../data/builders';
 import { registerUser } from '../../src/api/client';
 import { expect, test } from '../../src/fixtures/base';
 
-test.describe('Marketplace – insufficient funds', () => {
+test.describe('@api Marketplace – insufficient funds', () => {
   test('buying an offer with zero balance is rejected and balance stays unchanged', async ({
     request,
   }) => {

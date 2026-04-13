@@ -2,7 +2,7 @@ import { makeField, makeUniqueUser } from '../../data/builders';
 import { registerUser } from '../../src/api/client';
 import { expect, test } from '../../src/fixtures/base';
 
-test.describe('Marketplace – authenticated buy cycle', () => {
+test.describe('@api Marketplace – authenticated buy cycle', () => {
   test('User A lists a field; User B funds account and buys it', async ({ request }) => {
     const { client: userA } = await registerUser(request, makeUniqueUser());
     const { client: userB } = await registerUser(request, makeUniqueUser());
