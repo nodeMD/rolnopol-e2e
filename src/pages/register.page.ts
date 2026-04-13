@@ -15,11 +15,22 @@ export class RegisterPage {
     }
     await this.page.getByLabel('Password').fill(password);
     await this.page.getByRole('button', { name: 'Create Account' }).click();
+    await this.page.waitForLoadState('load');
+  }
+
+  async submitEmpty(): Promise<void> {
+    await this.page.getByRole('button', { name: 'Create Account' }).click();
+  }
+
+  async expectFieldError(fieldLabel: string, message: string): Promise<void> {
+    const field = this.page.getByLabel(fieldLabel);
+    const errorEl = field.locator('..').locator('.form__error');
+    await expect(errorEl).toContainText(message, { timeout: 5_000 });
   }
 
   async expectRedirectAfterRegister(): Promise<void> {
-    // after register the app shows success notification and then redirects to /login.html after 2 s
-    await this.page.waitForURL(/login\.html/, { timeout: 10_000 });
+    await expect(this.page.getByText('Registration successful!')).toBeVisible();
+    await expect(this.page.getByText('Registration successful!')).toBeHidden({ timeout: 7_000 });
   }
 
   async expectTokenCookieSet(): Promise<void> {

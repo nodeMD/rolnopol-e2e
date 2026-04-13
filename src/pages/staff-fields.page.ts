@@ -1,12 +1,20 @@
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 
-
 export class StaffFieldsPage {
   constructor(private readonly page: Page) {}
 
   async goto(): Promise<void> {
-    await this.page.goto('/staff-fields.html');
+    await this.page.goto('/staff-fields-main.html');
+  }
+
+  async openStaffFieldsDashboard(): Promise<void> {
+    await this.page.getByTestId('nav-staff-fields').click();
+    await this.page.waitForLoadState('load');
+  }
+
+  async openTab(tabName: 'Main' | 'Assign' | 'Charts'): Promise<void> {
+    await this.page.getByRole('link', { name: tabName }).click();
   }
 
   async expectLoaded(): Promise<void> {
@@ -83,6 +91,59 @@ export class StaffFieldsPage {
       .locator('#assignModal')
       .getByRole('button', { name: /Assign/i })
       .click();
+  }
+
+  // ── Validation helpers ───────────────────────────────────────────────────
+
+  async openAddFieldModal(): Promise<void> {
+    await this.page.locator('#openAddFieldModal').click();
+  }
+
+  async submitAddFieldForm(): Promise<void> {
+    await this.page
+      .locator('#addFieldModal')
+      .getByRole('button', { name: /Add Field/i })
+      .click();
+  }
+
+  async expectFieldError(id: 'fieldNameError' | 'fieldAreaError', message: string): Promise<void> {
+    await expect(this.page.locator(`#${id}`)).toContainText(message, { timeout: 5_000 });
+  }
+
+  async openAddStaffModal(): Promise<void> {
+    await this.page.locator('#openAddStaffModal').click();
+  }
+
+  async submitAddStaffForm(): Promise<void> {
+    await this.page
+      .locator('#addStaffModal')
+      .getByRole('button', { name: /Add Staff/i })
+      .click();
+  }
+
+  async expectStaffError(
+    id: 'staffNameError' | 'staffSurnameError' | 'staffAgeError',
+    message: string,
+  ): Promise<void> {
+    await expect(this.page.locator(`#${id}`)).toContainText(message, { timeout: 5_000 });
+  }
+
+  async openAddAnimalModal(): Promise<void> {
+    await this.page.locator('#openAddAnimalModal').click();
+  }
+
+  async submitAddAnimalForm(): Promise<void> {
+    await this.page
+      .locator('#addAnimalModal')
+      .getByRole('button', { name: /Add Animal/i })
+      .click();
+  }
+
+  async expectAnimalError(
+    id: 'animalTypeError' | 'animalAmountError',
+    message: string,
+  ): Promise<void> {
+    await expect(this.page.locator(`#${id}`)).toContainText(message, { timeout: 5_000 });
   }
 
   // ── Stats ────────────────────────────────────────────────────────────────
