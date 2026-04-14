@@ -154,3 +154,8 @@ tests/
   integration/     # browser + page.route() API mocks
   ui/              # full browser E2E specs
 ```
+
+## Future 
+
+- Agree within dev team on consistent approach to locators (if we want to use data-test-id) and stick with it.
+- Implement playeright shards on the CI to easily handle more tests running on the CI
